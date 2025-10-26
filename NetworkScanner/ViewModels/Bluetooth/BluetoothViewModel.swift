@@ -22,6 +22,8 @@ class BluetoothViewModel: ObservableObject {
     @Published private var _timeRemaining: Int = 15
     @Published var showCompletionAlert: Bool = false
     
+    private let scanDuration: Int = 15
+    
     // MARK: - Public Getters
     var devices: [BluetoothDevice] { _devices }
     var isScanning: Bool { _isScanning }
@@ -67,9 +69,7 @@ class BluetoothViewModel: ObservableObject {
         else if rssi >= -80 { return 2 }
         else { return 1 }
     }
-    
-    // MARK: - Constants
-    private let scanDuration: Int = 15
+
     
     // MARK: - Initializer
     init(bluetoothService: any BluetoothServicing = BluetoothService()) {
@@ -79,11 +79,17 @@ class BluetoothViewModel: ObservableObject {
     
     // MARK: - General Logic
     func startScanning() {
+        
+        showCompletionAlert = false
         bluetoothService.startScanning(for: scanDuration)
     }
     
     func stopScanning() {
         bluetoothService.stopScanning()
+    }
+    
+    func dismissCompletionAlert() {
+        showCompletionAlert = false
     }
 }
 
@@ -92,17 +98,19 @@ private extension BluetoothViewModel {
     private func setupBindings() {
         if let service = bluetoothService as? BluetoothService {
             setupConcreteBindings(with: service)
-        } else {
-            setupGenericBindings()
         }
     }
     
     private func setupConcreteBindings(with service: BluetoothService) {
         service.$discoveredDevices
-            .receive(on: DispatchQueue.main)
+            .receive(on: DispatchQueue.global(qos: .userInitiated))
+            .removeDuplicates()
+            .receive(on: RunLoop.main)
             .assign(to: \._devices, on: self)
             .store(in: &cancellables)
-            
+
+  
+        
         service.$isScanning
             .receive(on: DispatchQueue.main)
             .assign(to: \._isScanning, on: self)
@@ -137,12 +145,12 @@ private extension BluetoothViewModel {
     
     private func setupScanCompletionBinding(with service: BluetoothService) {
         service.$isScanning
-            .dropFirst()
+            .combineLatest(service.$timeRemaining)
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] isScanning in
+            .sink { [weak self] (isScanning, timeRemaining) in
                 guard let self = self else { return }
                 
-                if !isScanning && self._timeRemaining == 0 {
+                if !isScanning && timeRemaining == 0 {
                     self.showCompletionAlert = true
                 }
             }

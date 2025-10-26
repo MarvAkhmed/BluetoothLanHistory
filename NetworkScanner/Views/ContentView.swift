@@ -9,7 +9,27 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        BluetoothScanView()
+        TabView {
+            
+            
+            NavigationView {
+                BluetoothScanView()
+            }
+            
+            .tabItem {
+                Image(systemName: "antenna.radiowaves.left.and.right")
+                Text("Bluetooth")
+            }
+            
+            
+            NavigationView {
+//                LANScanView()
+            }
+            .tabItem {
+                Image(systemName: "network")
+                Text("LAN")
+            }
+        }
     }
 }
 

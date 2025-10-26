@@ -7,7 +7,7 @@
 
 import CoreBluetooth
 
-struct BluetoothDevice: Identifiable {
+struct BluetoothDevice: Identifiable, Equatable {
     
     // MARK: - Private Properties
     var id = UUID()

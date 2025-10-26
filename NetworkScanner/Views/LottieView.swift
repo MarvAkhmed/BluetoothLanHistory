@@ -42,7 +42,7 @@ struct ScanningAnimationView: View {
             LottieView(animationName: "scanning",
                       loopMode: .loop,
                       aspectRatio: 1.0)
-                .frame(width: 20, height: 20) 
+                .frame(width: 20, height: 20)
             
             Text("Scanning...")
                 .font(.caption)

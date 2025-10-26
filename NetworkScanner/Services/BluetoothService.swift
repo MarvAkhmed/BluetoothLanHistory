@@ -37,7 +37,9 @@ class BluetoothService: NSObject, BluetoothServicing {
     // MARK: - Initializer
     override init() {
         super.init()
-        centralManager = CBCentralManager(delegate: self, queue: .main)
+        centralManager = CBCentralManager(delegate: self, queue: nil)
+
+
     }
     
     // MARK: - Bluetooth Operations
@@ -75,17 +77,10 @@ class BluetoothService: NSObject, BluetoothServicing {
         
         scanTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] _ in
             guard let self = self else { return }
-            
             self.timeRemaining -= 1
-            
             let elapsedTime = Double(self.totalScanTime - self.timeRemaining)
-            self.scanProgress = elapsedTime / Double(self.totalScanTime)
-            
-            self.scanProgress = max(0.0, min(1.0, self.scanProgress))
-            
-            if self.timeRemaining <= 0 {
-                self.stopScanning()
-            }
+            self.scanProgress = max(0.0, min(1.0, elapsedTime / Double(self.totalScanTime)))
+            if self.timeRemaining <= 0 { self.stopScanning() }
         }
     }
     
@@ -129,6 +124,8 @@ extension BluetoothService: CBCentralManagerDelegate {
             status: peripheral.state
         )
         
-        updateDiscoveredDevice(device)
+        Task {
+            updateDiscoveredDevice(device)
+        }
     }
 }

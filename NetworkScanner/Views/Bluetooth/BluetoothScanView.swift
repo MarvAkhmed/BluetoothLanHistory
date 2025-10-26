@@ -12,26 +12,27 @@ struct BluetoothScanView: View {
     @StateObject private var viewModel = BluetoothViewModel()
     
     var body: some View {
-        NavigationView {
-            ScrollView {
-                VStack(spacing: 24) {
-                    showProgress
-                    statusSection
-                    scanControlSection
-                    devicesSection
-                    
-                }
-                .padding(.vertical)
+
+        ScrollView {
+            VStack(spacing: 24) {
+                statusSection
+                showProgress
+                scanControlSection
+                devicesSection
+                
             }
-            .navigationTitle("Bluetooth Scan")
-            .navigationBarTitleDisplayMode(.large)
-            .background(Color(.systemGroupedBackground))
-            .alert("Scan Complete",
-                   isPresented: $viewModel.showCompletionAlert) {
-                Button("OK", role: .cancel) { }
-            } message: {
-                Text("Found \(viewModel.devices.count) device\(viewModel.devices.count == 1 ? "" : "s")")
+            .padding(.vertical)
+        }
+        .navigationTitle("Bluetooth Scan")
+        .navigationBarTitleDisplayMode(.large)
+        .background(Color(.systemGroupedBackground))
+        .alert("Scan Complete",
+               isPresented: $viewModel.showCompletionAlert) {
+            Button("OK", role: .cancel) {
+                viewModel.dismissCompletionAlert()
             }
+        } message: {
+            Text("Found \(viewModel.devices.count) device\(viewModel.devices.count == 1 ? "" : "s")")
         }
     }
     
@@ -48,7 +49,7 @@ struct BluetoothScanView: View {
     
     @ViewBuilder
     private var statusSection: some View {
-        VStack(spacing: 16) {
+        VStack(spacing: 0) {
             
             if let error = viewModel.errorMessage {
                 errorView(error)
@@ -68,6 +69,7 @@ struct BluetoothScanView: View {
                     viewModel.stopScanning()
                 } else {
                     viewModel.startScanning()
+                    
                 }
             }
             .buttonStyle(.borderedProminent)
