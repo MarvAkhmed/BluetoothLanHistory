@@ -38,8 +38,6 @@ class BluetoothService: NSObject, BluetoothServicing {
     override init() {
         super.init()
         centralManager = CBCentralManager(delegate: self, queue: nil)
-
-
     }
     
     // MARK: - Bluetooth Operations

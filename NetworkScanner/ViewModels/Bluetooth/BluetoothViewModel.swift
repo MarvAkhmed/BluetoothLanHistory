@@ -160,7 +160,6 @@ private extension BluetoothViewModel {
     private func updateFromService() {
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
-            
             self._devices = self.bluetoothService.discoveredDevices
             self._isScanning = self.bluetoothService.isScanning
             self._errorMessage = self.bluetoothService.errorMessage

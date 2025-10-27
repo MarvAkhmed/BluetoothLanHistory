@@ -12,6 +12,7 @@ import MMLanScan
 protocol LanScanServiceDelegate: AnyObject {
     func didFind(device: LanDevice)
     func didFinishScanning()
+    func didUpdateProgress(_ progress: Double)
     func didFailWithError(_ error: Error)
 }
 
@@ -42,6 +43,11 @@ final class LanScanService: NSObject {
         isScanning = false
         lanScanner?.stop()
     }
+    
+    func finishScan() {
+        delegate?.didFinishScanning()
+    }
+
 }
 
 extension LanScanService: MMLANScannerDelegate {
@@ -58,6 +64,7 @@ extension LanScanService: MMLANScannerDelegate {
         isScanning = false
         delegate?.didFinishScanning()
     }
+
     
     func lanScanDidFailedToScan() {
         isScanning = false
@@ -68,4 +75,5 @@ extension LanScanService: MMLANScannerDelegate {
         )
         delegate?.didFailWithError(error)
     }
+
 }
