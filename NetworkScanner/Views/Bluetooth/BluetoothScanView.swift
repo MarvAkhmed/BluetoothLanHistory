@@ -39,13 +39,33 @@ struct BluetoothScanView: View {
     @ViewBuilder
     private var showProgress: some View {
         if viewModel.isScanning {
-            ScanningAnimationView()
+            ZStack {
+                Circle()
+                    .stroke(Color(.systemGray5), lineWidth: 8)
+                    .frame(width: 120, height: 120)
+                
+                Circle()
+                    .trim(from: 0, to: CGFloat(viewModel.scanProgress))
+                    .stroke(Color.blue, style: StrokeStyle(lineWidth: 8, lineCap: .round))
+                    .rotationEffect(.degrees(-90))
+                    .frame(width: 120, height: 120)
+                    .animation(.easeInOut(duration: 0.2), value: viewModel.scanProgress)
+                
+                ScanningAnimationView()
+                    .frame(width: 80, height: 80)
+            }
+            .padding(.vertical)
+            
+            // Time remaining
             HStack {
                 Image(systemName: "clock")
                 Text("Time remaining: \(viewModel.timeRemaining)s")
             }
+            .font(.caption)
+            .foregroundColor(.secondary)
         }
     }
+
     
     @ViewBuilder
     private var statusSection: some View {

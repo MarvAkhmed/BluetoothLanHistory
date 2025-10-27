@@ -35,20 +35,14 @@ struct LottieView: UIViewRepresentable {
     func updateUIView(_ uiView: LottieAnimationView, context: Context) {}
 }
 
-// MARK: - Clean Lottie Container
+// MARK: - Blutooth Lottie Container
 struct ScanningAnimationView: View {
     var body: some View {
         VStack(spacing: 12) {
             LottieView(animationName: "scanning",
                       loopMode: .loop,
                       aspectRatio: 1.0)
-                .frame(width: 20, height: 20)
-            
-            Text("Scanning...")
-                .font(.caption)
-                .foregroundColor(.secondary)
-                .fontWeight(.medium)
+            .background(.clear)
         }
-        .frame(width: 150, height: 150, alignment: .center)
     }
 }

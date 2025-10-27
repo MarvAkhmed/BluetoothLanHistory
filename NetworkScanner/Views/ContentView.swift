@@ -23,7 +23,7 @@ struct ContentView: View {
             
             
             NavigationView {
-//                LANScanView()
+                LanScanView()
             }
             .tabItem {
                 Image(systemName: "network")

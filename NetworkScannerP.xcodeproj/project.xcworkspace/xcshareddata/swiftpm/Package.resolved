@@ -1,0 +1,24 @@
+{
+  "originHash" : "64ffab362558f3f458add011a93ec9ddab61db93bd375dd48506b2c4ccd498ca",
+  "pins" : [
+    {
+      "identity" : "lottie-spm",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/airbnb/lottie-spm",
+      "state" : {
+        "revision" : "04f2fd18cc9404a0a0917265a449002674f24ec9",
+        "version" : "4.5.2"
+      }
+    },
+    {
+      "identity" : "mmlanscan",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/b5i/MMLanScan",
+      "state" : {
+        "revision" : "0ed541d3d19b871b41f8f84e891db0d7557c5186",
+        "version" : "4.0.0"
+      }
+    }
+  ],
+  "version" : 3
+}

@@ -8,19 +8,20 @@
 
 /* Begin PBXBuildFile section */
 		C5F5DD8E2EAE871000D17DBC /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = C5F5DD8D2EAE871000D17DBC /* Lottie */; };
+		C5F5DE7D2EAF553900D17DBC /* MMLanScan in Frameworks */ = {isa = PBXBuildFile; productRef = C5F5DE7C2EAF553900D17DBC /* MMLanScan */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		C5F5DD452EAE5F4000D17DBC /* NetworkScanner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NetworkScanner.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C5F5DD452EAE5F4000D17DBC /* NetworkScannerP.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NetworkScannerP.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		C5F5DD682EAE6D4500D17DBC /* Exceptions for "NetworkScanner" folder in "NetworkScanner" target */ = {
+		C5F5DD682EAE6D4500D17DBC /* Exceptions for "NetworkScanner" folder in "NetworkScannerP" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
 			);
-			target = C5F5DD442EAE5F4000D17DBC /* NetworkScanner */;
+			target = C5F5DD442EAE5F4000D17DBC /* NetworkScannerP */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
@@ -28,7 +29,7 @@
 		C5F5DD472EAE5F4000D17DBC /* NetworkScanner */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				C5F5DD682EAE6D4500D17DBC /* Exceptions for "NetworkScanner" folder in "NetworkScanner" target */,
+				C5F5DD682EAE6D4500D17DBC /* Exceptions for "NetworkScanner" folder in "NetworkScannerP" target */,
 			);
 			path = NetworkScanner;
 			sourceTree = "<group>";
@@ -40,6 +41,7 @@
 			isa = PBXFrameworksBuildPhase;
 			files = (
 				C5F5DD8E2EAE871000D17DBC /* Lottie in Frameworks */,
+				C5F5DE7D2EAF553900D17DBC /* MMLanScan in Frameworks */,
 			);
 		};
 /* End PBXFrameworksBuildPhase section */
@@ -56,7 +58,7 @@
 		C5F5DD462EAE5F4000D17DBC /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				C5F5DD452EAE5F4000D17DBC /* NetworkScanner.app */,
+				C5F5DD452EAE5F4000D17DBC /* NetworkScannerP.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -64,9 +66,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		C5F5DD442EAE5F4000D17DBC /* NetworkScanner */ = {
+		C5F5DD442EAE5F4000D17DBC /* NetworkScannerP */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = C5F5DD502EAE5F4200D17DBC /* Build configuration list for PBXNativeTarget "NetworkScanner" */;
+			buildConfigurationList = C5F5DD502EAE5F4200D17DBC /* Build configuration list for PBXNativeTarget "NetworkScannerP" */;
 			buildPhases = (
 				C5F5DD412EAE5F4000D17DBC /* Sources */,
 				C5F5DD422EAE5F4000D17DBC /* Frameworks */,
@@ -80,12 +82,13 @@
 			fileSystemSynchronizedGroups = (
 				C5F5DD472EAE5F4000D17DBC /* NetworkScanner */,
 			);
-			name = NetworkScanner;
+			name = NetworkScannerP;
 			packageProductDependencies = (
 				C5F5DD8D2EAE871000D17DBC /* Lottie */,
+				C5F5DE7C2EAF553900D17DBC /* MMLanScan */,
 			);
 			productName = BlotoothLanNetwork;
-			productReference = C5F5DD452EAE5F4000D17DBC /* NetworkScanner.app */;
+			productReference = C5F5DD452EAE5F4000D17DBC /* NetworkScannerP.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -103,7 +106,7 @@
 					};
 				};
 			};
-			buildConfigurationList = C5F5DD402EAE5F4000D17DBC /* Build configuration list for PBXProject "NetworkScanner" */;
+			buildConfigurationList = C5F5DD402EAE5F4000D17DBC /* Build configuration list for PBXProject "NetworkScannerP" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -114,13 +117,14 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				C5F5DD6E2EAE818900D17DBC /* XCRemoteSwiftPackageReference "lottie-spm" */,
+				C5F5DE522EAF549000D17DBC /* XCRemoteSwiftPackageReference "MMLanScan" */,
 			);
 			preferredProjectObjectVersion = 90;
 			productRefGroup = C5F5DD462EAE5F4000D17DBC /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				C5F5DD442EAE5F4000D17DBC /* NetworkScanner */,
+				C5F5DD442EAE5F4000D17DBC /* NetworkScannerP */,
 			);
 		};
 /* End PBXProject section */
@@ -149,7 +153,7 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		C5F5DD4E2EAE5F4200D17DBC /* Debug configuration for PBXProject "NetworkScanner" */ = {
+		C5F5DD4E2EAE5F4200D17DBC /* Debug configuration for PBXProject "NetworkScannerP" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -212,7 +216,7 @@
 			};
 			name = Debug;
 		};
-		C5F5DD4F2EAE5F4200D17DBC /* Release configuration for PBXProject "NetworkScanner" */ = {
+		C5F5DD4F2EAE5F4200D17DBC /* Release configuration for PBXProject "NetworkScannerP" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -268,7 +272,7 @@
 			};
 			name = Release;
 		};
-		C5F5DD512EAE5F4200D17DBC /* Debug configuration for PBXNativeTarget "NetworkScanner" */ = {
+		C5F5DD512EAE5F4200D17DBC /* Debug configuration for PBXNativeTarget "NetworkScannerP" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -280,6 +284,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = NetworkScanner/Info.plist;
 				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "";
+				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -303,7 +308,7 @@
 			};
 			name = Debug;
 		};
-		C5F5DD522EAE5F4200D17DBC /* Release configuration for PBXNativeTarget "NetworkScanner" */ = {
+		C5F5DD522EAE5F4200D17DBC /* Release configuration for PBXNativeTarget "NetworkScannerP" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -315,6 +320,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = NetworkScanner/Info.plist;
 				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "";
+				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -341,19 +347,19 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		C5F5DD402EAE5F4000D17DBC /* Build configuration list for PBXProject "NetworkScanner" */ = {
+		C5F5DD402EAE5F4000D17DBC /* Build configuration list for PBXProject "NetworkScannerP" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				C5F5DD4E2EAE5F4200D17DBC /* Debug configuration for PBXProject "NetworkScanner" */,
-				C5F5DD4F2EAE5F4200D17DBC /* Release configuration for PBXProject "NetworkScanner" */,
+				C5F5DD4E2EAE5F4200D17DBC /* Debug configuration for PBXProject "NetworkScannerP" */,
+				C5F5DD4F2EAE5F4200D17DBC /* Release configuration for PBXProject "NetworkScannerP" */,
 			);
 			defaultConfigurationName = Release;
 		};
-		C5F5DD502EAE5F4200D17DBC /* Build configuration list for PBXNativeTarget "NetworkScanner" */ = {
+		C5F5DD502EAE5F4200D17DBC /* Build configuration list for PBXNativeTarget "NetworkScannerP" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				C5F5DD512EAE5F4200D17DBC /* Debug configuration for PBXNativeTarget "NetworkScanner" */,
-				C5F5DD522EAE5F4200D17DBC /* Release configuration for PBXNativeTarget "NetworkScanner" */,
+				C5F5DD512EAE5F4200D17DBC /* Debug configuration for PBXNativeTarget "NetworkScannerP" */,
+				C5F5DD522EAE5F4200D17DBC /* Release configuration for PBXNativeTarget "NetworkScannerP" */,
 			);
 			defaultConfigurationName = Release;
 		};
@@ -368,6 +374,14 @@
 				minimumVersion = 4.5.2;
 			};
 		};
+		C5F5DE522EAF549000D17DBC /* XCRemoteSwiftPackageReference "MMLanScan" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/b5i/MMLanScan";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -380,6 +394,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = C5F5DD6E2EAE818900D17DBC /* XCRemoteSwiftPackageReference "lottie-spm" */;
 			productName = Lottie;
+		};
+		C5F5DE7C2EAF553900D17DBC /* MMLanScan */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C5F5DE522EAF549000D17DBC /* XCRemoteSwiftPackageReference "MMLanScan" */;
+			productName = MMLanScan;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
