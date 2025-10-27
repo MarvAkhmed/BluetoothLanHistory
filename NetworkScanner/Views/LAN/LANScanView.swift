@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct LanScanView: View {
-    @StateObject private var viewModel = LanScanViewModel()
+
+    @StateObject private var viewModel = LanScanViewModel(coreDataService: CoreDataService())
     
     var body: some View {
         ScrollView {

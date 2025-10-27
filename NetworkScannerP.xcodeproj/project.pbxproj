@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		C5F5DD8E2EAE871000D17DBC /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = C5F5DD8D2EAE871000D17DBC /* Lottie */; };
 		C5F5DE7D2EAF553900D17DBC /* MMLanScan in Frameworks */ = {isa = PBXBuildFile; productRef = C5F5DE7C2EAF553900D17DBC /* MMLanScan */; };
+		C5F5DF032EB02EE800D17DBC /* NetworkScannerP.app in Sources */ = {isa = PBXBuildFile; fileRef = C5F5DD452EAE5F4000D17DBC /* NetworkScannerP.app */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -20,6 +21,10 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
+				"Models/CoreData/Device+CoreDataClass.swift",
+				"Models/CoreData/Device+CoreDataProperties.swift",
+				"Models/CoreData/ScanSession+CoreDataClass.swift",
+				"Models/CoreData/ScanSession+CoreDataProperties.swift",
 			);
 			target = C5F5DD442EAE5F4000D17DBC /* NetworkScannerP */;
 		};
@@ -141,6 +146,7 @@
 		C5F5DD412EAE5F4000D17DBC /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			files = (
+				C5F5DF032EB02EE800D17DBC /* NetworkScannerP.app in Sources */,
 			);
 		};
 /* End PBXSourcesBuildPhase section */

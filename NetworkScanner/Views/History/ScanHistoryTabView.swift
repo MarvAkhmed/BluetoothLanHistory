@@ -10,6 +10,8 @@ import SwiftUI
 struct ScanHistoryTabView: View {
     @State private var selectedScan = 0
     private let scanTypes = ["Bluetooth", "LAN"]
+    @StateObject private var lanHistoryVM = LanScanViewModel(coreDataService: CoreDataService())
+    @StateObject private var bluetoothVM = BluetoothViewModel(coreDataService: CoreDataService())
 
     var body: some View {
         NavigationView {
@@ -23,14 +25,14 @@ struct ScanHistoryTabView: View {
                 .padding()
 
                 if selectedScan == 0 {
-                    BluetoothHistoryView()
-                } else if selectedScan == 1{
-                    LanHistoryView()
+                    BluetoothHistoryView(viewModel: bluetoothVM)
+                } else if selectedScan == 1 {
+                    LanHistoryView(viewModel: lanHistoryVM)
                 }
 
                 Spacer()
             }
-            .navigationTitle("History")
         }
     }
 }
+

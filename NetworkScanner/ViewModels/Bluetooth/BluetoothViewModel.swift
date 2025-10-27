@@ -12,7 +12,8 @@ class BluetoothViewModel: ObservableObject {
     
     // MARK: - Dependencies
     private let bluetoothService: any BluetoothServicing
-    private var cancellables = Set<AnyCancellable>()
+     private let coreDataService: ScanDataServiceProtocol
+     private var cancellables = Set<AnyCancellable>()
     
     // MARK: - Private Published Properties
     @Published private var _devices: [BluetoothDevice] = []
@@ -24,6 +25,7 @@ class BluetoothViewModel: ObservableObject {
     
     private let scanDuration: Int = 15
     
+
     // MARK: - Public Getters
     var devices: [BluetoothDevice] { _devices }
     var isScanning: Bool { _isScanning }
@@ -72,20 +74,24 @@ class BluetoothViewModel: ObservableObject {
 
     
     // MARK: - Initializer
-    init(bluetoothService: any BluetoothServicing = BluetoothService()) {
+    init(bluetoothService: any BluetoothServicing = BluetoothService(),
+         coreDataService: ScanDataServiceProtocol = CoreDataService()) {
         self.bluetoothService = bluetoothService
+        self.coreDataService = coreDataService
         setupBindings()
     }
     
     // MARK: - General Logic
     func startScanning() {
-        
         showCompletionAlert = false
         bluetoothService.startScanning(for: scanDuration)
     }
     
     func stopScanning() {
         bluetoothService.stopScanning()
+        Task {
+            await saveScanResults()
+        }
     }
     
     func dismissCompletionAlert() {
@@ -95,46 +101,46 @@ class BluetoothViewModel: ObservableObject {
 
 // MARK: - Private Methods
 private extension BluetoothViewModel {
-    private func setupBindings() {
+    func setupBindings() {
         if let service = bluetoothService as? BluetoothService {
             setupConcreteBindings(with: service)
         }
     }
     
-    private func setupConcreteBindings(with service: BluetoothService) {
+    func setupConcreteBindings(with service: BluetoothService) {
         service.$discoveredDevices
             .receive(on: DispatchQueue.global(qos: .userInitiated))
             .removeDuplicates()
             .receive(on: RunLoop.main)
             .assign(to: \._devices, on: self)
             .store(in: &cancellables)
-
-  
+        
+        
         
         service.$isScanning
             .receive(on: DispatchQueue.main)
             .assign(to: \._isScanning, on: self)
             .store(in: &cancellables)
-            
+        
         service.$errorMessage
             .receive(on: DispatchQueue.main)
             .assign(to: \._errorMessage, on: self)
             .store(in: &cancellables)
-            
+        
         service.$scanProgress
             .receive(on: DispatchQueue.main)
             .assign(to: \._scanProgress, on: self)
             .store(in: &cancellables)
-            
+        
         service.$timeRemaining
             .receive(on: DispatchQueue.main)
             .assign(to: \._timeRemaining, on: self)
             .store(in: &cancellables)
-            
+        
         setupScanCompletionBinding(with: service)
     }
     
-    private func setupGenericBindings() {
+    func setupGenericBindings() {
         Timer.publish(every: 0.1, on: .main, in: .common)
             .autoconnect()
             .sink { [weak self] _ in
@@ -143,7 +149,7 @@ private extension BluetoothViewModel {
             .store(in: &cancellables)
     }
     
-    private func setupScanCompletionBinding(with service: BluetoothService) {
+    func setupScanCompletionBinding(with service: BluetoothService) {
         service.$isScanning
             .combineLatest(service.$timeRemaining)
             .receive(on: DispatchQueue.main)
@@ -151,13 +157,18 @@ private extension BluetoothViewModel {
                 guard let self = self else { return }
                 
                 if !isScanning && timeRemaining == 0 {
-                    self.showCompletionAlert = true
+                    Task {
+                        await self.saveScanResults()
+                        await MainActor.run {
+                            self.showCompletionAlert = true
+                        }
+                    }
                 }
             }
             .store(in: &cancellables)
     }
     
-    private func updateFromService() {
+    func updateFromService() {
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
             self._devices = self.bluetoothService.discoveredDevices
@@ -165,6 +176,45 @@ private extension BluetoothViewModel {
             self._errorMessage = self.bluetoothService.errorMessage
             self._scanProgress = self.bluetoothService.scanProgress
             self._timeRemaining = self.bluetoothService.timeRemaining
+        }
+    }
+    
+
+}
+
+// MARK: -  Core data
+extension BluetoothViewModel {
+    private func saveScanResults() async {
+        guard !_devices.isEmpty else { return }
+        
+        let localDevices = _devices.map { device in
+            DeviceDataLocal(
+                id: UUID(),
+                name: device.name,
+                type: DeviceType.bluetooth.rawValue,
+                uuid: device.uuid,
+                ipAddress: nil,
+                macAddress: nil,
+                rssi: Int16(device.rssi),
+                status: device.status.displayName
+            )
+        }
+
+        do {
+            try await coreDataService.saveScanSession(devices: localDevices, sessionType: DeviceType.bluetooth.rawValue)
+            print("Saved \(localDevices.count) Bluetooth devices")
+        } catch {
+            print("Failed to save Bluetooth devices: \(error)")
+        }
+    }
+    
+    func fetchBluetoothScanHistory() async -> [ScanSessionLocal] {
+        do {
+            let sessions = try await coreDataService.fetchScanSessions(ofType: DeviceType.bluetooth.rawValue)
+            return sessions.filter { !$0.devices.isEmpty }
+        }catch {
+            print("Failed to fetch Bluetooth scan history: \(error)")
+            return []
         }
     }
 }

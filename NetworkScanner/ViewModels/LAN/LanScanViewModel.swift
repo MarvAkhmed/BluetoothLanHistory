@@ -18,11 +18,16 @@ final class LanScanViewModel: ObservableObject {
 
     private var timer: Timer?
     private let service: LanScanService
+    private let coreDataService: ScanDataServiceProtocol
+    
+    init(service: LanScanService = LanScanService(),
+         coreDataService: ScanDataServiceProtocol) {
 
-    init(service: LanScanService = LanScanService()) {
         self.service = service
+        self.coreDataService = coreDataService
         self.service.delegate = self
     }
+
 
     // MARK: - Public Methods
 
@@ -43,23 +48,14 @@ final class LanScanViewModel: ObservableObject {
 
     func stopScan() {
         service.stopScan()
-        DispatchQueue.main.async { [weak self] in
-            guard let self = self else { return }
-            self.isScanning = false
-            self.timer?.invalidate()
-            self.timer = nil
-            self.scanProgress = 1.0
+        Task {
+            await finishScanning()
         }
+       
     }
 
     func dismissCompletionAlert() {
         showCompletionAlert = false
-    }
-
-    private func addDevice(_ device: LanDevice) {
-        if !devices.contains(device) {
-            devices.append(device)
-        }
     }
 }
 
@@ -78,23 +74,15 @@ extension LanScanViewModel: LanScanServiceDelegate {
     }
 
     func didFinishScanning() {
-        DispatchQueue.main.async { [weak self] in
-            guard let self = self else { return }
-            self.isScanning = false
-            self.timer?.invalidate()
-            self.timer = nil
-            self.scanProgress = 1.0
-            self.showCompletionAlert = true
-        }
+        Task{ await  finishScanning() }
     }
 
     func didFailWithError(_ error: Error) {
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
-            self.isScanning = false
+            self.stopScan()
             self.timer?.invalidate()
             self.timer = nil
-            self.scanProgress = 1.0
             self.errorMessage = error.localizedDescription
         }
     }
@@ -102,7 +90,6 @@ extension LanScanViewModel: LanScanServiceDelegate {
 
 // MARK: - Timer & Progress
 private extension LanScanViewModel {
-    
     func startProgressTimer(totalDuration: Int) {
         timer?.invalidate()
         let interval = 0.1
@@ -118,6 +105,55 @@ private extension LanScanViewModel {
                 t.invalidate()
                 self.service.finishScan()
             }
+        }
+    }
+    
+    func addDevice(_ device: LanDevice) {
+        if !devices.contains(device) {
+            devices.append(device)
+        }
+    }
+}
+
+//MARK: -  Core data
+extension LanScanViewModel {
+    private func finishScanning() async {
+        self.isScanning = false
+        self.timer?.invalidate()
+        self.timer = nil
+        self.scanProgress = 1.0
+        self.showCompletionAlert = true
+        
+        
+        guard !devices.isEmpty else {  return  }
+        let localDevices = devices.map { lan in
+            DeviceDataLocal(
+                id: UUID(),
+                name: lan.name,
+                type: DeviceType.lan.rawValue, 
+                uuid: nil,
+                ipAddress: lan.ipAddress,
+                macAddress: lan.macAddress,
+                rssi: 0,
+                status: nil
+            )
+        }
+        
+        Task.detached { [localDevices, coreDataService] in
+            do {
+                try await coreDataService.saveScanSession(devices: localDevices, sessionType: DeviceType.lan.rawValue)
+            }
+        }
+    }
+    
+    
+    func fetchLanScanHistory() async -> [ScanSessionLocal] {
+        do {
+            let sessions = try await coreDataService.fetchScanSessions(ofType: DeviceType.lan.rawValue)
+            return sessions.filter { !$0.devices.isEmpty }
+        } catch {
+            print("Failed to fetch LAN scan history: \(error)")
+            return []
         }
     }
 }
