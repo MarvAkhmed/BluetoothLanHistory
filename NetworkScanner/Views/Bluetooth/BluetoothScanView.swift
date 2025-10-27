@@ -12,7 +12,7 @@ struct BluetoothScanView: View {
     @StateObject private var viewModel = BluetoothViewModel()
     
     var body: some View {
-
+        
         ScrollView {
             VStack(spacing: 24) {
                 statusSection
@@ -65,7 +65,7 @@ struct BluetoothScanView: View {
             .foregroundColor(.secondary)
         }
     }
-
+    
     
     @ViewBuilder
     private var statusSection: some View {
@@ -105,8 +105,13 @@ struct BluetoothScanView: View {
         if !viewModel.devices.isEmpty {
             LazyVStack(spacing: 12) {
                 ForEach(0..<viewModel.deviceCount, id: \.self) { index in
-                    BluetoothScanCell(viewModel: viewModel, index: index)
-                        .padding(.horizontal)
+                    NavigationLink {
+                        BluetoothDeviceDetailView(device: viewModel.devices[index])
+                    } label: {
+                        BluetoothScanCell(viewModel: viewModel, index: index)
+                            .padding(.horizontal)
+                    }
+                    .buttonStyle(PlainButtonStyle())
                 }
             }
             .animation(.easeInOut, value: viewModel.devices.count)

@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct LanScanView: View {
-
+    
     @StateObject private var viewModel = LanScanViewModel(coreDataService: CoreDataService())
     
     var body: some View {
@@ -93,7 +93,7 @@ struct LanScanView: View {
                 if viewModel.isScanning {
                     viewModel.stopScan()
                 } else {
-                    viewModel.startScan(for: 15) // Stops automatically after 15 sec
+                    viewModel.startScan(for: 15)
                 }
             }
             .buttonStyle(.borderedProminent)
@@ -110,7 +110,12 @@ struct LanScanView: View {
         if !viewModel.devices.isEmpty {
             LazyVStack(spacing: 12) {
                 ForEach(viewModel.devices) { device in
-                    LANScanCell(device: device)
+                    NavigationLink {
+                        LanDeviceDetailView(device: device)
+                    } label: {
+                        LANScanCell(device: device)
+                    }
+                    .buttonStyle(PlainButtonStyle())
                 }
             }
             .animation(.easeInOut, value: viewModel.devices.count)
@@ -118,7 +123,7 @@ struct LanScanView: View {
             emptyStateView
         }
     }
-    
+
     // MARK: - Empty State
     @ViewBuilder
     private var emptyStateView: some View {

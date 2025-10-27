@@ -29,3 +29,15 @@ extension CBPeripheralState {
         }
     }
 }
+
+extension BluetoothDevice {
+    static func from(statusString: String) -> CBPeripheralState {
+        switch statusString {
+        case "Connected": return .connected
+        case "Connecting": return .connecting
+        case "Disconnected": return .disconnected
+        case "Disconnecting": return .disconnecting
+        default: return .disconnected
+        }
+    }
+}

@@ -15,18 +15,27 @@ struct BluetoothHistoryView: View {
         List(sessions) { session in
             Section(header: Text(session.date, style: .date)) {
                 ForEach(session.devices) { device in
-                    VStack(alignment: .leading) {
-                        Text(device.name ?? "Unknown Device")
-                        Text(device.uuid ?? "No UUID")
-                            .font(.subheadline)
-                            .foregroundColor(.gray)
-                        Text("RSSI: \(device.rssi)")
-                            .font(.caption)
-                            .foregroundColor(.secondary)
-                        if let status = device.status {
-                            Text("Status: \(status)")
+                    NavigationLink {
+                        BluetoothDeviceDetailView(device: BluetoothDevice(
+                            name: device.name,
+                            uuid: device.uuid ?? "no uuid found",
+                            rssi: Int(device.rssi),
+                            status: BluetoothDevice.from(statusString: device.status ?? "Unknown")
+                        ))
+                    } label: {
+                        VStack(alignment: .leading) {
+                            Text(device.name ?? "Unknown Device")
+                            Text(device.uuid ?? "No UUID")
+                                .font(.subheadline)
+                                .foregroundColor(.gray)
+                            Text("RSSI: \(device.rssi)")
                                 .font(.caption)
                                 .foregroundColor(.secondary)
+                            if let status = device.status {
+                                Text("Status: \(status)")
+                                    .font(.caption)
+                                    .foregroundColor(.secondary)
+                            }
                         }
                     }
                 }

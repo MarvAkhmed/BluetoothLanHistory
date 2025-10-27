@@ -9,18 +9,25 @@ import SwiftUI
 
 struct LanHistoryView: View {
     @StateObject var viewModel: LanScanViewModel
-
     @State private var sessions: [ScanSessionLocal] = []
 
     var body: some View {
         List(sessions) { session in
             Section(header: Text(session.date, style: .date)) {
                 ForEach(session.devices) { device in
-                    VStack(alignment: .leading) {
-                        Text(device.name ?? "Unknown")
-                        Text(device.ipAddress ?? "No IP")
-                            .font(.subheadline)
-                            .foregroundColor(.gray)
+                    NavigationLink {
+                        LanDeviceDetailView(device: LanDevice(
+                            ipAddress: device.name ?? "Unknown",
+                            macAddress: device.ipAddress ?? "No IP",
+                            name: device.macAddress ?? "No MAC"
+                        ))
+                    } label: {
+                        VStack(alignment: .leading) {
+                            Text(device.name ?? "Unknown")
+                            Text(device.ipAddress ?? "No IP")
+                                .font(.subheadline)
+                                .foregroundColor(.gray)
+                        }
                     }
                 }
             }
