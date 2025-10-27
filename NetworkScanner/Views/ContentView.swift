@@ -10,25 +10,17 @@ import SwiftUI
 struct ContentView: View {
     var body: some View {
         TabView {
-            
-            
-            NavigationView {
-                BluetoothScanView()
-            }
-            
-            .tabItem {
-                Image(systemName: "antenna.radiowaves.left.and.right")
-                Text("Bluetooth")
-            }
-            
-            
-            NavigationView {
-                LanScanView()
-            }
-            .tabItem {
-                Image(systemName: "network")
-                Text("LAN")
-            }
+            ScanTabView()
+                .tabItem {
+                    Image(systemName: "dot.radiowaves.left.and.right")
+                    Text("Scan")
+                }
+
+            ScanHistoryTabView()
+                .tabItem {
+                    Image(systemName: "clock.arrow.circlepath")
+                    Text("History")
+                }
         }
     }
 }

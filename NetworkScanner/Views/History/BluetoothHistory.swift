@@ -7,11 +7,12 @@
 
 import SwiftUI
 
-struct ScanHistoryView: View {
+struct BluetoothHistoryView: View {
     var body: some View {
         NavigationView {
             Text("Scan History will appear here")
-                .navigationTitle("History")
+
         }
     }
 }
+

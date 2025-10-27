@@ -15,7 +15,6 @@ struct BluetoothDevice: Identifiable, Equatable {
     var uuid: String
     var rssi: Int
     var status: CBPeripheralState
-    
 }
 
 // MARK: - CBPeripheralState Extension
